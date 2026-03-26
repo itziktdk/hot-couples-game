@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🔥 הזוגות החמים 🔥</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--card:#1a1a1a;--fire1:#ff4500;--fire2:#ff6b35;--fire3:#ffa500;--gold:#ffd700;--pink:#ff69b4;--text:#fff;--muted:#aaa}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;direction:rtl}
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:20px;text-align:center;animation:fadeIn .4s}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes fireGlow{0%,100%{text-shadow:0 0 10px #ff4500,0 0 20px #ff6b35,0 0 40px #ffa500}50%{text-shadow:0 0 20px #ff4500,0 0 40px #ff6b35,0 0 60px #ffa500}}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+@keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.title{font-size:clamp(2rem,8vw,3.5rem);font-weight:900;animation:fireGlow 2s infinite;margin-bottom:10px}
+.subtitle{font-size:1.1rem;color:var(--muted);margin-bottom:30px}
+.btn{background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;padding:16px 40px;font-size:1.2rem;font-family:inherit;border-radius:50px;cursor:pointer;font-weight:700;transition:all .2s;min-width:200px;margin:8px}
+.btn:hover,.btn:active{transform:scale(1.05);box-shadow:0 0 30px rgba(255,69,0,.5)}
+.btn.secondary{background:linear-gradient(135deg,#333,#555)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#ffaa00);color:#000}
+.btn.pink{background:linear-gradient(135deg,var(--pink),#ff1493)}
+.btn:disabled{opacity:.4;transform:none}
+.card{background:var(--card);border-radius:20px;padding:30px;width:100%;max-width:500px;margin:10px 0;border:1px solid #333}
+input{background:#222;border:1px solid #444;color:#fff;padding:14px 18px;font-size:1rem;font-family:inherit;border-radius:12px;width:100%;margin:6px 0;text-align:right;direction:rtl}
+input::placeholder{color:#666}
+input:focus{outline:none;border-color:var(--fire2);box-shadow:0 0 10px rgba(255,107,53,.3)}
+.couple-row{display:flex;gap:10px;align-items:center;margin:8px 0}
+.couple-row input{flex:1}
+.couple-num{font-size:1.5rem;min-width:40px}
+.remove-btn{background:none;border:none;color:#ff4444;font-size:1.5rem;cursor:pointer;padding:5px}
+.category-badge{display:inline-block;padding:8px 20px;border-radius:30px;font-size:.9rem;font-weight:700;margin-bottom:15px}
+.cat-truth{background:linear-gradient(135deg,#9b59b6,#8e44ad);color:#fff}
+.cat-dare{background:linear-gradient(135deg,var(--fire1),#cc0000);color:#fff}
+.cat-who{background:linear-gradient(135deg,var(--pink),#ff1493);color:#fff}
+.cat-vs{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000}
+.question-text{font-size:clamp(1.3rem,5vw,1.8rem);font-weight:700;line-height:1.6;margin:20px 0;min-height:100px;display:flex;align-items:center;justify-content:center}
+.score-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#111;border-radius:12px;margin:5px 0;width:100%;max-width:500px}
+.score-name{font-weight:700}
+.score-pts{color:var(--fire3);font-weight:900;font-size:1.3rem}
+.round-info{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+.progress-bar{width:100%;max-width:500px;height:6px;background:#333;border-radius:3px;margin:10px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--fire1),var(--fire3));border-radius:3px;transition:width .3s}
+.vote-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px;margin:15px 0}
+.vote-btn{background:#222;border:2px solid #444;color:#fff;padding:15px;font-size:1.1rem;font-family:inherit;border-radius:15px;cursor:pointer;transition:all .2s;font-weight:700}
+.vote-btn:hover,.vote-btn.selected{border-color:var(--fire2);background:rgba(255,69,0,.15);transform:scale(1.03)}
+.emoji-big{font-size:4rem;margin:15px 0}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:15px;margin:20px 0}
+.podium-item{display:flex;flex-direction:column;align-items:center;padding:15px;border-radius:15px;background:var(--card)}
+.podium-item.first{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;min-height:180px;order:2}
+.podium-item.second{background:linear-gradient(135deg,#c0c0c0,#888);color:#000;min-height:140px;order:1}
+.podium-item.third{background:linear-gradient(135deg,#cd7f32,#8b4513);color:#fff;min-height:110px;order:3}
+.podium-rank{font-size:2rem;font-weight:900}
+.podium-name{font-size:1rem;font-weight:700;margin-top:5px}
+.podium-score{font-size:1.3rem;font-weight:900;margin-top:5px}
+.confetti-piece{position:fixed;top:-20px;width:10px;height:10px;border-radius:2px;animation:confetti 3s linear forwards;pointer-events:none;z-index:999}
+.flame-bg{position:fixed;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,rgba(255,69,0,.08),transparent);pointer-events:none;z-index:0}
+.age-gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center}
+.tabs{display:flex;gap:5px;margin-bottom:15px}
+.tab{padding:10px 20px;border-radius:10px 10px 0 0;cursor:pointer;background:#222;color:#aaa;font-weight:700;font-family:inherit;border:none;font-size:1rem}
+.tab.active{background:var(--card);color:#fff;border-bottom:2px solid var(--fire2)}
+.point-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;font-weight:900;color:var(--gold);pointer-events:none;animation:pointPop .8s forwards;z-index:100}
+@keyframes pointPop{0%{opacity:1;transform:translate(-50%,-50%) scale(.5)}50%{transform:translate(-50%,-70%) scale(1.3)}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
+.spinner{animation:shake 0.1s infinite}
+</style>
+</head>
+<body>
+<div class="flame-bg"></div>
+
+<!-- Age Gate -->
+<div class="age-gate-overlay" id="ageGate">
+  <div class="emoji-big">🔞</div>
+  <h1 style="font-size:2rem;margin:10px 0">רגע, רגע...</h1>
+  <p style="color:var(--muted);margin:15px 0;font-size:1.1rem;max-width:400px">המשחק הזה מיועד לזוגות מעל גיל 18 בלבד.<br>התכנים פיקנטיים, חצופים ומאוד למבוגרים בלבד 🌶️</p>
+  <button class="btn" onclick="enterGame()" style="margin-top:20px">אני מעל 18, בואו נתחיל! 🔥</button>
+</div>
+
+<!-- Home Screen -->
+<div class="screen" id="homeScreen">
+  <div class="title">🔥 הזוגות החמים 🔥</div>
+  <div class="subtitle">משחק הזוגות הכי חם שיש 🌶️</div>
+  <div class="emoji-big" style="animation:pulse 2s infinite">💑</div>
+  <button class="btn" onclick="showScreen('setupScreen')">משחק חדש 🎮</button>
+  <button class="btn secondary" onclick="showScreen('rulesScreen')">איך משחקים? 📖</button>
+</div>
+
+<!-- Rules -->
+<div class="screen" id="rulesScreen">
+  <div class="card" style="text-align:right">
+    <h2 style="text-align:center;margin-bottom:20px">📖 חוקי המשחק</h2>
+    <p style="line-height:2;color:var(--muted)">
+      🔥 <b style="color:#fff">2-5 זוגות</b> משחקים יחד<br>
+      🎯 כל סיבוב עולה <b style="color:#fff">שאלה או אתגר</b><br>
+      🏆 הזוגות מצביעים מי ביצע הכי טוב<br>
+      ⭐ <b style="color:#fff">נקודות:</b> על כל הצבעה שהזוג מקבל<br>
+      🌶️ יש 4 קטגוריות: אמת, חובה, מי מהזוג, וזוג נגד זוג<br>
+      👑 הזוג עם הכי הרבה נקודות = <b style="color:var(--gold)">הזוג הכי חם!</b><br><br>
+      <span style="color:var(--fire2)">⚠️ אין חובה לענות - אפשר לדלג (בלי נקודות)</span>
+    </p>
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn secondary" onclick="showScreen('homeScreen')">חזרה ↩️</button>
+    </div>
+  </div>
+</div>
+
+<!-- Setup -->
+<div class="screen" id="setupScreen">
+  <h2 style="margin-bottom:5px">הגדרת משחק 🎯</h2>
+  <p style="color:var(--muted);margin-bottom:20px">הכניסו את שמות הזוגות</p>
+  <div class="card" id="couplesForm">
+    <!-- Couples added dynamically -->
+  </div>
+  <button class="btn secondary" onclick="addCouple()" id="addCoupleBtn" style="font-size:1rem;padding:10px 25px">+ הוסף זוג</button>
+  <div style="margin-top:10px">
+    <label style="color:var(--muted);font-size:.9rem">מספר סיבובים:</label>
+    <select id="roundCount" style="background:#222;color:#fff;border:1px solid #444;padding:10px;border-radius:10px;font-family:inherit;font-size:1rem;margin:5px">
+      <option value="10">10 סיבובים</option>
+      <option value="15" selected>15 סיבובים</option>
+      <option value="20">20 סיבובים</option>
+      <option value="30">30 סיבובים - מרתון! 🔥</option>
+    </select>
+  </div>
+  <button class="btn gold" onclick="startGame()" style="margin-top:15px">יאללה, מתחילים! 🔥</button>
+  <button class="btn secondary" onclick="showScreen('homeScreen')" style="font-size:.9rem;padding:10px 20px">חזרה</button>
+</div>
+
+<!-- Game Screen -->
+<div class="screen" id="gameScreen">
+  <div class="round-info" id="roundInfo"></div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div id="scoresBar" style="width:100%;max-width:500px"></div>
+  <div class="card" style="min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center" id="questionCard">
+    <div id="categoryBadge"></div>
+    <div id="targetCouple" style="color:var(--fire3);font-weight:700;font-size:1.1rem;margin-bottom:5px"></div>
+    <div class="question-text" id="questionText"></div>
+  </div>
+  <div id="actionArea" style="width:100%;max-width:500px;display:flex;flex-direction:column;align-items:center"></div>
+</div>
+
+<!-- Results Screen -->
+<div class="screen" id="resultsScreen">
+  <div class="title" style="font-size:2rem">🏆 תוצאות 🏆</div>
+  <div class="emoji-big">👑</div>
+  <div id="winnerAnnounce" style="font-size:1.5rem;font-weight:900;color:var(--gold);margin:10px 0"></div>
+  <div class="podium" id="podium"></div>
+  <div id="fullScores" style="width:100%;max-width:500px;margin:15px 0"></div>
+  <button class="btn" onclick="location.reload()">משחק חדש 🔄</button>
+</div>
+
+<script>
+// ===== QUESTIONS DATABASE =====
+const questions = {
+  truth: [
+    "מה הפנטזיה הכי פרועה שלכם שעדיין לא הגשמתם? 🔥",
+    "מה המקום הכי מוזר שעשיתם את זה? 🤫",
+    "מתי הפעם האחרונה ששלחתם הודעה סקסית אחד לשני? 📱",
+    "איזה דבר מגונה חשבתם על מישהו אחר בזמן שהייתם ביחד? 😈",
+    "מה הדבר הכי מביך שקרה לכם במיטה? 🙈",
+    "האם אי פעם רימיתם במשחק כזה? ועל בן/בת הזוג? 👀",
+    "מה הפנטזיה שבן/בת הזוג לא יודע/ת עליה? 🤐",
+    "מה הדבר הכי מלוכלך שאמרתם אחד לשני? 🗣️",
+    "באיזה תנוחה אתם הכי אוהבים? בלי לשקר! 😏",
+    "כמה פעמים בשבוע אתם עושים את זה? אמת! 🔢",
+    "האם מישהו מכם צפה בפורנו ביחד? מה סוג? 🎬",
+    "מי מכם יותר דומיננטי/ת במיטה? 💪",
+    "מה הדבר שהייתם רוצים שבן/בת הזוג ישנה במיטה? 🛏️",
+    "האם היה לכם פעם שלישייה? או שרציתם? 👥",
+    "מה הסוד הכי מלוכלך שיש לכם כזוג? 🤫"
+  ],
+  dare: [
+    "תנשקו אחד את השני 10 שניות ברצף - הזוגות האחרים שופטים! 💋",
+    "הראו את ההודעה הסקסית האחרונה ששלחתם אחד לשני 📱🔥",
+    "בן הזוג צריך לעשות ריקוד חיקוי סטריפטיז 30 שניות 💃",
+    "תלחשו אחד לשני משהו מלוכלך - והשאר צריכים לנחש מה 🤫",
+    "חקו את בן/בת הזוג שלכם באורגזמה - הכי משכנע מנצח 😩",
+    "תנו ביס סקסי לבן/בת הזוג על הצוואר 🧛",
+    "שחקו סצנה של הכרות ראשונה בבר - גרסה מלוכלכת 🍸",
+    "בן/בת הזוג מורידים פריט לבוש אחד - בחירת הקבוצה! 👗",
+    "תעשו את הפרצוף הכי סקסי שלכם - הקבוצה בוחרת מנצח 😏",
+    "שלחו הודעה סקסית לבן/בת הזוג עכשיו - הקריאו בקול! 📲",
+    "עיסוי של 30 שניות לבן/בת הזוג - הכי רומנטי מנצח 💆",
+    "ספרו בקול רם מה עשיתם בפעם הראשונה שלכם ביחד 🙊",
+    "תחקו סצנת אהבה מסרט - הכי דרמטי מנצח 🎬",
+    "תראו לכולם את התמונה האחרונה בגלריה - בלי למחוק! 📸",
+    "תעשו לבן/בת הזוג לאפ דאנס של 20 שניות 🪑🔥"
+  ],
+  who: [
+    "מי מהזוג יותר חרמן/ית? 🔥",
+    "מי מהזוג יזם/תזם סקס ראשון/ה? 😈",
+    "מי מהזוג יותר רועש/ה במיטה? 🔊",
+    "מי מהזוג שולח/ת יותר הודעות סקסיות? 📱",
+    "מי מהזוג יסכים/תסכים לשלישייה ראשון/ה? 👀",
+    "מי מהזוג יותר מפנק/ת? 🍫",
+    "מי מהזוג נרדם/ת ראשון/ה אחרי? 😴",
+    "מי מהזוג יותר אוהב/ת ניסויים חדשים? 🧪",
+    "מי מהזוג שקרן/ית יותר לגבי כאבי ראש? 🤕",
+    "מי מהזוג צפה בפורנו לאחרונה? 🎬",
+    "מי מהזוג הכי פוטוגני/ת בלי בגדים? 📸",
+    "מי מהזוג יותר מקנא/ת? 😤",
+    "מי מהזוג יותר טוב/ה בנשיקות? 💋",
+    "מי מהזוג ירצה לעשות את זה במקום ציבורי? 🏖️",
+    "מי מהזוג מעדיף/ה בבוקר ומי בלילה? 🌙"
+  ],
+  vs: [
+    "אתגר נשיקות: איזה זוג מתנשק הכי ארוך? 💋⏱️",
+    "מי מהזוגות מכיר את בן/בת הזוג הכי טוב? שאלות אינטימיות! 🧠",
+    "אתגר ריקוד סקסי: כל זוג רוקד 30 שניות - הכי חם מנצח! 💃🕺",
+    "battle נשיקות: הזוגות מתנשקים - הקהל בוחר מנצח! 💏",
+    "אתגר מילים מלוכלכות: כל זוג אומר משהו מלוכלך - מי הכי יצירתי? 🗣️",
+    "מי מהזוגות יכול לספר את הסיפור הכי מלוכלך מהמערכת יחסים? 📖",
+    "אתגר לחישות: לחשו משהו חם - מי גורם לבן/בת הזוג להסמיק? 😊",
+    "אתגר חיקויים: חקו את בן/בת הזוג שלכם במיטה - מי הכי מצחיק? 🎭",
+    "אתגר תנוחות: הראו את התנוחה האהובה עליכם (עם בגדים!) - מי הכי יצירתי? 🤸",
+    "אתגר הפתעה: גלו משהו שבן/בת הזוג לא יודע/ת - מי מפתיע יותר? 😲"
+  ]
+};
+
+// ===== GAME STATE =====
+let game = {
+  couples: [],
+  scores: [],
+  currentRound: 0,
+  totalRounds: 15,
+  usedQuestions: new Set(),
+  currentQuestion: null,
+  currentCategory: null,
+  currentTarget: null
+};
+
+// ===== UI HELPERS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'setupScreen') initSetup();
+}
+
+function enterGame() {
+  document.getElementById('ageGate').style.display = 'none';
+  showScreen('homeScreen');
+}
+
+function initSetup() {
+  const form = document.getElementById('couplesForm');
+  form.innerHTML = '';
+  addCouple(); addCouple();
+}
+
+let coupleCount = 0;
+function addCouple() {
+  if (coupleCount >= 5) return;
+  coupleCount++;
+  const form = document.getElementById('couplesForm');
+  const div = document.createElement('div');
+  div.className = 'couple-row';
+  div.id = `couple-${coupleCount}`;
+  div.innerHTML = `
+    <span class="couple-num">💑</span>
+    <input type="text" placeholder="שם ראשון" class="pname" data-couple="${coupleCount}" data-pos="0">
+    <input type="text" placeholder="שם שני" class="pname" data-couple="${coupleCount}" data-pos="1">
+    ${coupleCount > 2 ? `<button class="remove-btn" onclick="removeCouple(this)">✕</button>` : ''}
+  `;
+  form.appendChild(div);
+  if (coupleCount >= 5) document.getElementById('addCoupleBtn').style.display = 'none';
+}
+
+function removeCouple(btn) {
+  btn.parentElement.remove();
+  coupleCount--;
+  document.getElementById('addCoupleBtn').style.display = '';
+}
+
+// ===== GAME LOGIC =====
+function startGame() {
+  const inputs = document.querySelectorAll('.pname');
+  const couplesMap = {};
+  inputs.forEach(inp => {
+    const c = inp.dataset.couple;
+    if (!couplesMap[c]) couplesMap[c] = [];
+    couplesMap[c][inp.dataset.pos] = inp.value.trim();
+  });
+
+  game.couples = Object.values(couplesMap).filter(c => c[0] && c[1]);
+  if (game.couples.length < 2) {
+    alert('צריך לפחות 2 זוגות!');
+    return;
+  }
+
+  game.scores = game.couples.map(() => 0);
+  game.totalRounds = parseInt(document.getElementById('roundCount').value);
+  game.currentRound = 0;
+  game.usedQuestions = new Set();
+
+  showScreen('gameScreen');
+  nextRound();
+}
+
+function getRandomQuestion() {
+  const categories = ['truth', 'dare', 'who', 'vs'];
+  let attempts = 0;
+  while (attempts < 200) {
+    const cat = categories[Math.floor(Math.random() * categories.length)];
+    const idx = Math.floor(Math.random() * questions[cat].length);
+    const key = `${cat}-${idx}`;
+    if (!game.usedQuestions.has(key)) {
+      game.usedQuestions.add(key);
+      return { category: cat, text: questions[cat][idx] };
+    }
+    attempts++;
+  }
+  // If all used, reset
+  game.usedQuestions.clear();
+  return getRandomQuestion();
+}
+
+function getCategoryLabel(cat) {
+  const labels = { truth: ['אמת 🤫', 'cat-truth'], dare: ['חובה 🔥', 'cat-dare'], who: ['מי מהזוג...? 💑', 'cat-who'], vs: ['זוג נגד זוג ⚔️', 'cat-vs'] };
+  return labels[cat];
+}
+
+function nextRound() {
+  game.currentRound++;
+  if (game.currentRound > game.totalRounds) {
+    showResults();
+    return;
+  }
+
+  const q = getRandomQuestion();
+  game.currentQuestion = q;
+  game.currentCategory = q.category;
+
+  // Pick target couple(s)
+  const targetIdx = Math.floor(Math.random() * game.couples.length);
+  game.currentTarget = targetIdx;
+
+  document.getElementById('roundInfo').textContent = `סיבוב ${game.currentRound} מתוך ${game.totalRounds}`;
+  document.getElementById('progressFill').style.width = `${(game.currentRound / game.totalRounds) * 100}%`;
+
+  const [label, cls] = getCategoryLabel(q.category);
+  document.getElementById('categoryBadge').innerHTML = `<span class="category-badge ${cls}">${label}</span>`;
+
+  if (q.category === 'vs') {
+    document.getElementById('targetCouple').textContent = '⚔️ כל הזוגות מתחרים!';
+  } else if (q.category === 'who') {
+    const c = game.couples[targetIdx];
+    document.getElementById('targetCouple').textContent = `${c[0]} & ${c[1]}`;
+  } else {
+    const c = game.couples[targetIdx];
+    document.getElementById('targetCouple').textContent = `🎯 ${c[0]} & ${c[1]}`;
+  }
+
+  document.getElementById('questionText').textContent = q.text;
+  updateScoresBar();
+  showActionButtons();
+}
+
+function updateScoresBar() {
+  const bar = document.getElementById('scoresBar');
+  bar.innerHTML = game.couples.map((c, i) =>
+    `<div class="score-bar"><span class="score-name">${c[0]} & ${c[1]}</span><span class="score-pts">${game.scores[i]} 🔥</span></div>`
+  ).join('');
+}
+
+function showActionButtons() {
+  const area = document.getElementById('actionArea');
+  if (game.currentCategory === 'vs' || game.currentCategory === 'dare') {
+    // Vote for best couple
+    area.innerHTML = `
+      <p style="color:var(--muted);margin:10px 0">אחרי שכולם ביצעו - הצביעו למנצח!</p>
+      <div class="vote-grid">
+        ${game.couples.map((c, i) => `<button class="vote-btn" onclick="vote(${i})">${c[0]} & ${c[1]}</button>`).join('')}
+      </div>
+      <button class="btn secondary" onclick="skipRound()" style="font-size:.9rem;padding:10px 20px;margin-top:5px">דילוג ⏭️</button>
+    `;
+  } else if (game.currentCategory === 'who') {
+    const c = game.couples[game.currentTarget];
+    area.innerHTML = `
+      <p style="color:var(--muted);margin:10px 0">מי מהזוג? כולם מצביעים!</p>
+      <div class="vote-grid">
+        <button class="vote-btn" onclick="voteWho(0)">${c[0]}</button>
+        <button class="vote-btn" onclick="voteWho(1)">${c[1]}</button>
+      </div>
+      <button class="btn secondary" onclick="skipRound()" style="font-size:.9rem;padding:10px 20px;margin-top:5px">דילוג ⏭️</button>
+    `;
+  } else {
+    // Truth - couple answers, others vote if answer was good
+    area.innerHTML = `
+      <p style="color:var(--muted);margin:10px 0">הזוג ענה? הצביעו אם היה משכנע!</p>
+      <div style="display:flex;gap:10px">
+        <button class="btn pink" onclick="truthGood()">🔥 מעולה, נקודה!</button>
+        <button class="btn secondary" onclick="skipRound()">😒 חלש, הלאה</button>
+      </div>
+    `;
+  }
+}
+
+function vote(coupleIdx) {
+  game.scores[coupleIdx]++;
+  showPointPopup();
+  setTimeout(nextRound, 800);
+}
+
+function voteWho(personIdx) {
+  game.scores[game.currentTarget]++;
+  showPointPopup();
+  setTimeout(nextRound, 800);
+}
+
+function truthGood() {
+  game.scores[game.currentTarget]++;
+  showPointPopup();
+  setTimeout(nextRound, 800);
+}
+
+function skipRound() {
+  nextRound();
+}
+
+function showPointPopup() {
+  const popup = document.createElement('div');
+  popup.className = 'point-popup';
+  popup.textContent = '+1 🔥';
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 900);
+}
+
+// ===== RESULTS =====
+function showResults() {
+  showScreen('resultsScreen');
+  launchConfetti();
+
+  const sorted = game.couples.map((c, i) => ({ name: `${c[0]} & ${c[1]}`, score: game.scores[i] }))
+    .sort((a, b) => b.score - a.score);
+
+  document.getElementById('winnerAnnounce').innerHTML = `🔥 הזוג הכי חם: ${sorted[0].name}! 🔥`;
+
+  const podium = document.getElementById('podium');
+  podium.innerHTML = '';
+  const places = ['first', 'second', 'third'];
+  const medals = ['🥇', '🥈', '🥉'];
+  sorted.slice(0, 3).forEach((s, i) => {
+    podium.innerHTML += `
+      <div class="podium-item ${places[i]}">
+        <div class="podium-rank">${medals[i]}</div>
+        <div class="podium-name">${s.name}</div>
+        <div class="podium-score">${s.score} 🔥</div>
+      </div>`;
+  });
+
+  const full = document.getElementById('fullScores');
+  full.innerHTML = sorted.map((s, i) =>
+    `<div class="score-bar"><span class="score-name">${i + 1}. ${s.name}</span><span class="score-pts">${s.score} 🔥</span></div>`
+  ).join('');
+}
+
+function launchConfetti() {
+  const colors = ['#ff4500', '#ff6b35', '#ffa500', '#ffd700', '#ff69b4', '#ff1493'];
+  for (let i = 0; i < 60; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 2 + 's';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.width = (5 + Math.random() * 10) + 'px';
+    piece.style.height = (5 + Math.random() * 10) + 'px';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 5000);
+  }
+}
+</script>
+</body>
+</html>
