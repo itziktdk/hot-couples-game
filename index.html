@@ -5,365 +5,333 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>🔥 הזוגות החמים 🔥</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Heebo',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden;direction:rtl}
-.screen{display:none;min-height:100vh;padding:20px;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:fadeIn .5s}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#1a0a0a;color:#fff;min-height:100vh;overflow-x:hidden;direction:rtl}
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;text-align:center}
 .screen.active{display:flex}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes fire{0%,100%{text-shadow:0 0 10px #ff4500,0 0 20px #ff4500,0 0 40px #ff0000}50%{text-shadow:0 0 20px #ff6a00,0 0 40px #ff6a00,0 0 60px #ff4500}}
-@keyframes confetti{0%{transform:translateY(-100vh) rotate(0)}100%{transform:translateY(100vh) rotate(720deg)}}
-@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bounceIn{0%{transform:scale(0)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
-h1{font-size:2.5em;font-weight:900;animation:fire 2s infinite;margin-bottom:10px}
-h2{font-size:1.8em;font-weight:700;color:#ff6a00;margin-bottom:15px}
-.btn{background:linear-gradient(135deg,#ff4500,#ff6a00);color:#fff;border:none;padding:16px 40px;font-size:1.3em;font-weight:700;border-radius:50px;cursor:pointer;font-family:'Heebo';transition:all .3s;box-shadow:0 4px 20px rgba(255,69,0,.4);margin:8px}
-.btn:hover{transform:scale(1.05);box-shadow:0 6px 30px rgba(255,69,0,.6)}
-.btn:active{transform:scale(.97)}
-.btn.secondary{background:linear-gradient(135deg,#333,#555)}
-.btn.vote-btn{padding:14px 20px;font-size:1.1em;width:100%;max-width:350px;margin:6px auto;display:block;animation:slideUp .4s backwards}
-.btn.selected{background:linear-gradient(135deg,#ff1744,#ff6a00);box-shadow:0 0 25px rgba(255,23,68,.6)}
-.card{background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid #ff450055;border-radius:20px;padding:30px;margin:15px 0;width:100%;max-width:450px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
-.question-card{font-size:1.5em;line-height:1.6;min-height:120px;display:flex;align-items:center;justify-content:center;animation:bounceIn .5s}
-.category-badge{display:inline-block;padding:8px 20px;border-radius:30px;font-size:.9em;font-weight:700;margin-bottom:15px;animation:slideUp .3s}
-.cat-truth{background:linear-gradient(135deg,#e91e63,#c2185b)}
-.cat-who{background:linear-gradient(135deg,#ff6a00,#ff4500)}
-.cat-vs{background:linear-gradient(135deg,#9c27b0,#7b1fa2)}
-.cat-reveal{background:linear-gradient(135deg,#f44336,#b71c1c)}
-input[type=text]{background:#1a1a2e;border:2px solid #ff450055;color:#fff;padding:14px 20px;font-size:1.1em;border-radius:15px;font-family:'Heebo';width:100%;max-width:350px;text-align:center;margin:6px 0;transition:border-color .3s}
-input[type=text]:focus{outline:none;border-color:#ff6a00}
-.couple-input{display:flex;align-items:center;gap:8px;margin:6px 0;animation:slideUp .3s backwards}
-.couple-input span{font-size:1.3em}
-.scoreboard{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:15px 0;width:100%;max-width:500px}
-.score-item{background:#1a1a2e;border:1px solid #ff450033;border-radius:15px;padding:10px 18px;min-width:120px;transition:all .3s}
-.score-item .name{font-weight:700;color:#ff6a00;font-size:1.1em}
-.score-item .pts{font-size:1.5em;font-weight:900;color:#fff}
-.progress-bar{width:100%;max-width:400px;height:8px;background:#1a1a2e;border-radius:10px;margin:10px 0;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#ff4500,#ff6a00);border-radius:10px;transition:width .5s}
-.round-info{font-size:.9em;color:#888;margin-bottom:5px}
-.podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:30px 0}
-.podium-place{text-align:center;border-radius:15px 15px 0 0;padding:15px 10px;min-width:90px;animation:slideUp .6s backwards}
-.podium-place.first{background:linear-gradient(180deg,#ffd700,#ff8c00);height:200px;order:2}
-.podium-place.second{background:linear-gradient(180deg,#c0c0c0,#808080);height:150px;order:1}
-.podium-place.third{background:linear-gradient(180deg,#cd7f32,#8b4513);height:110px;order:3}
-.podium-place .medal{font-size:2.5em}
-.podium-place .pname{font-weight:900;font-size:1.1em;margin:5px 0}
-.podium-place .pscore{font-size:1.3em;font-weight:700}
-.emoji-rain{position:fixed;top:-50px;font-size:2em;animation:confetti 3s linear forwards;pointer-events:none;z-index:999}
-.age-warning{font-size:1em;color:#ff6a00;margin:15px 0;line-height:1.5}
-.vs-label{font-size:1.3em;color:#ff6a00;font-weight:900;margin:10px 0}
-.timer-bar{width:100%;max-width:400px;height:6px;background:#1a1a2e;border-radius:10px;margin:10px 0;overflow:hidden}
-.timer-fill{height:100%;background:linear-gradient(90deg,#ff4500,#ffd700);border-radius:10px;transition:width 1s linear}
-.subtitle{color:#aaa;font-size:1em;margin-bottom:20px}
+h1{font-size:2.2em;margin-bottom:10px;text-shadow:0 0 20px #ff4500}
+h2{font-size:1.5em;color:#ff8c00;margin-bottom:20px}
+.subtitle{font-size:1.2em;color:#ff8c00;margin-bottom:30px}
+.btn{background:linear-gradient(135deg,#ff4500,#ff8c00);border:none;color:#fff;padding:16px 40px;font-size:1.3em;border-radius:50px;cursor:pointer;margin:10px;transition:all .3s;font-family:inherit;min-width:200px}
+.btn:hover,.btn:active{transform:scale(1.05);box-shadow:0 0 30px rgba(255,69,0,.6)}
+.btn:disabled{opacity:.4;transform:none}
+.btn-small{padding:10px 24px;font-size:1em;min-width:auto}
+.btn-danger{background:linear-gradient(135deg,#666,#444)}
+input{background:rgba(255,255,255,.1);border:2px solid #ff4500;color:#fff;padding:14px 20px;font-size:1.1em;border-radius:15px;width:100%;max-width:300px;text-align:center;margin:6px 0;font-family:inherit}
+input::placeholder{color:rgba(255,255,255,.4)}
+.couple-entry{background:rgba(255,69,0,.1);border:1px solid rgba(255,69,0,.3);border-radius:20px;padding:15px;margin:10px 0;width:100%;max-width:350px}
+.couple-entry label{color:#ff8c00;font-size:.9em}
+.option-btn{background:rgba(255,69,0,.15);border:2px solid rgba(255,69,0,.4);color:#fff;padding:16px 20px;font-size:1.15em;border-radius:15px;cursor:pointer;margin:8px 0;width:100%;max-width:400px;transition:all .3s;font-family:inherit;text-align:center}
+.option-btn:hover,.option-btn:active{background:rgba(255,69,0,.4);border-color:#ff4500;transform:scale(1.03)}
+.option-btn.selected{background:rgba(255,69,0,.6);border-color:#ff8c00;box-shadow:0 0 15px rgba(255,69,0,.4)}
+.progress-bar{width:100%;max-width:400px;height:8px;background:rgba(255,255,255,.1);border-radius:10px;margin:15px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff4500,#ff8c00);border-radius:10px;transition:width .5s}
+.question-text{font-size:1.4em;margin:20px 0;line-height:1.6;max-width:400px}
+.turn-label{font-size:1.6em;margin:15px 0;color:#ff8c00;animation:pulse 1.5s infinite}
+.pass-screen{font-size:1.8em;line-height:1.8}
+.reveal-icon{font-size:4em;margin:20px 0;animation:bounceIn .6s}
+.score-display{font-size:1.2em;margin:10px 0;color:#ff8c00}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:15px;margin:30px 0}
+.podium-item{display:flex;flex-direction:column;align-items:center;padding:15px;border-radius:15px 15px 0 0;min-width:90px}
+.podium-item.first{background:linear-gradient(180deg,#ffd700,#b8860b);height:180px;order:2}
+.podium-item.second{background:linear-gradient(180deg,#c0c0c0,#808080);height:140px;order:1}
+.podium-item.third{background:linear-gradient(180deg,#cd7f32,#8b4513);height:110px;order:3}
+.podium-name{font-size:1em;font-weight:bold;margin-top:auto}
+.podium-score{font-size:.9em;opacity:.9}
+.podium-medal{font-size:2em}
+.confetti{position:fixed;top:-10px;font-size:1.5em;animation:fall linear forwards;pointer-events:none;z-index:999}
+@keyframes fall{to{top:110vh;transform:rotate(720deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes bounceIn{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:slideUp .5s ease}
+.round-info{font-size:.95em;color:#aaa;margin:10px 0}
+.emoji-big{font-size:3em;margin:10px 0}
+.reveal-answers{display:flex;gap:15px;margin:20px 0;flex-wrap:wrap;justify-content:center}
+.reveal-card{background:rgba(255,255,255,.1);border-radius:15px;padding:15px 20px;min-width:140px}
+.reveal-card .label{font-size:.85em;color:#ff8c00;margin-bottom:5px}
+.reveal-card .answer{font-size:1.1em}
+.couples-list{width:100%;max-width:380px}
+.age-warning{color:#ff6b6b;font-size:.9em;margin:15px 0}
 </style>
 </head>
 <body>
 
 <!-- AGE GATE -->
-<div class="screen active" id="ageGate">
-<h1>🔥 הזוגות החמים 🔥</h1>
-<p class="subtitle">משחק השאלות הכי חם למסיבת זוגות</p>
-<div class="card">
-<p class="age-warning">⚠️ המשחק מכיל תוכן למבוגרים בלבד 🌶️<br>שאלות חושניות, אינטימיות ומאוד מפוקפקות!<br><br>האם כולם מעל גיל 18?</p>
-</div>
-<button class="btn" onclick="showScreen('setup')">🔞 כן, כולנו מבוגרים! יאללה!</button>
+<div class="screen active" id="screen-age">
+<div class="emoji-big">🔥</div>
+<h1>הזוגות החמים</h1>
+<p class="subtitle">כמה אתם באמת מכירים אחד את השני? 😏</p>
+<p class="age-warning">⚠️ המשחק מכיל תוכן למבוגרים בלבד (18+)</p>
+<br>
+<button class="btn" onclick="confirmAge()">אני מעל 18, בואו נתחיל! 🔥</button>
 </div>
 
 <!-- SETUP -->
-<div class="screen" id="setup">
-<h1>🔥 הזוגות החמים 🔥</h1>
-<h2>הכניסו את הזוגות</h2>
-<div id="coupleInputs"></div>
-<div style="margin-top:10px">
-<button class="btn secondary" id="addCoupleBtn" onclick="addCouple()">➕ הוסיפו זוג</button>
+<div class="screen" id="screen-setup">
+<h2>הכניסו את הזוגות 💑</h2>
+<p style="color:#aaa;margin-bottom:15px">2-5 זוגות</p>
+<div class="couples-list" id="couplesList"></div>
+<div style="margin:15px 0">
+<button class="btn btn-small" onclick="addCouple()" id="addBtn">+ הוסיפו זוג</button>
 </div>
-<div style="margin-top:15px">
-<button class="btn" onclick="startGame()">🔥 יאללה, מתחילים!</button>
-</div>
-<p style="color:#666;font-size:.85em;margin-top:10px">2-5 זוגות</p>
+<button class="btn" onclick="startGame()" id="startBtn" disabled>יאללה, מתחילים! 🔥</button>
 </div>
 
-<!-- GAME -->
-<div class="screen" id="game">
-<div class="round-info" id="roundInfo"></div>
+<!-- TURN ANNOUNCE -->
+<div class="screen" id="screen-turn">
+<div class="emoji-big" id="turnEmoji">💑</div>
+<h2 id="turnTitle"></h2>
+<p class="turn-label" id="turnLabel"></p>
+<p style="color:#aaa" id="turnHint"></p>
+<br>
+<button class="btn" onclick="showQuestion()">מוכן/ה! 👀</button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="screen-question">
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-<div class="scoreboard" id="scoreboard"></div>
-<div id="categoryBadge"></div>
-<div class="card question-card" id="questionCard"></div>
-<div id="vsArea"></div>
-<div id="voteArea" style="margin-top:15px;width:100%;max-width:400px"></div>
-<div id="gameActions" style="margin-top:15px"></div>
+<p class="round-info" id="roundInfo"></p>
+<p class="question-text" id="questionText"></p>
+<div id="optionsContainer"></div>
+</div>
+
+<!-- PASS PHONE -->
+<div class="screen" id="screen-pass">
+<div class="emoji-big">📱</div>
+<p class="pass-screen" id="passText"></p>
+<br>
+<button class="btn" onclick="startPartnerB()">קיבלתי את הטלפון! 😎</button>
+</div>
+
+<!-- REVEAL -->
+<div class="screen" id="screen-reveal">
+<div class="reveal-icon" id="revealIcon"></div>
+<h2 id="revealTitle"></h2>
+<p id="revealMsg" style="font-size:1.2em;margin:10px 0"></p>
+<div class="reveal-answers" id="revealAnswers"></div>
+<p class="score-display" id="revealScore"></p>
+<br>
+<button class="btn" onclick="nextRound()">הלאה! ➡️</button>
 </div>
 
 <!-- RESULTS -->
-<div class="screen" id="results">
-<h1>🏆 התוצאות 🏆</h1>
-<h2 id="winnerTitle"></h2>
+<div class="screen" id="screen-results">
+<h1>🏆 התוצאות! 🏆</h1>
+<p class="subtitle">הזוג שמכיר הכי טוב...</p>
 <div class="podium" id="podium"></div>
-<div id="fullScores" style="margin-top:20px"></div>
-<button class="btn" onclick="location.reload()" style="margin-top:20px">🔄 משחק חדש</button>
+<div id="allScores" style="margin:20px 0"></div>
+<br>
+<button class="btn" onclick="location.reload()">משחק חדש 🔄</button>
 </div>
 
 <script>
-const Q={
-miZug:[
-"מי מהזוג יותר שולט/ת במיטה? 😈",
-"מי מהזוג יזם/ה יותר סקס?",
-"מי מהזוג יותר רועש/ה במיטה? 🔊",
-"מי מהזוג יותר אוהב/ת לנסות דברים חדשים במיטה?",
-"מי מהזוג שלח/ה יותר תמונות חמות? 📸",
-"מי מהזוג יותר מתוח/ה כשלא עושים את זה הרבה זמן?",
-"מי מהזוג יותר פנטזיונר/ית?",
-"מי מהזוג יותר טוב/ה בנשיקות? 💋",
-"מי מהזוג נגמר/ת ראשון/ה?",
-"מי מהזוג יותר אוהב/ת פורפליי?",
-"מי מהזוג יותר קינקי? ⛓️",
-"מי מהזוג מעדיף/ה את זה בבוקר?",
-"מי מהזוג יותר מפנק/ת?",
-"מי מהזוג הכי מהר מתרגש/ת?",
-"מי מהזוג יותר אוהב/ת סקס טלפוני? 📱",
-"מי מהזוג יותר יצירתי/ת בתנוחות? 🤸",
-"מי מהזוג יותר מקנא/ה?",
-],
-emet:[
-"מה הפנטזיה הכי מטורפת שלכם שעוד לא הגשמתם? 🌙",
-"מתי הפעם האחרונה שעשיתם משהו במקום ציבורי? 👀",
-"מה הדבר הכי מביך שקרה לכם במיטה?",
-"מה הסקסט הכי חם ששלחתם אחד לשני? 📱",
-"באיזה מקום הכי מוזר עשיתם את זה?",
-"מה הדבר שבן/בת הזוג עושה שהכי מדליק אתכם?",
-"האם אי פעם חשבתם על מישהו אחר בזמן סקס? 🤫",
-"מה הפנטזיה שאתם מתביישים לספר?",
-"מה הדבר הכי פרוע שעשיתם יחד?",
-"כמה פעמים בשבוע אתם עושים את זה? אמת! 🔢",
-"מה הצעצוע האהוב עליכם? 😏",
-"האם אי פעם צילמתם את עצמכם? 🎥",
-"מה הדבר שהייתם רוצים שבן/בת הזוג יעשה יותר במיטה?",
-"מתי הפעם האחרונה שהפתעתם אחד את השני בסקס?",
-"מה הדבר הכי מושך בבן/בת הזוג שלכם פיזית?",
-"אם הייתם יכולים לשנות דבר אחד בחיי המין שלכם, מה זה היה?",
-"ספרו על הפעם הכי ארוכה שלכם 🕐",
-"מה הדבר שלמדתם אחד על השני רק אחרי שהתחלתם לגור ביחד?",
-"מה הסוד הכי עסיסי שלכם שאף אחד לא יודע?",
-"האם ניסיתם פעם לשחק תפקידים? ספרו! 🎭",
-],
-zugNegedZug:[
-"מה המקום הכי מטורף שעשיתם בו את זה? 🏖️",
-"תארו את הלילה הכי חם שהיה לכם ב-30 שניות ⏱️",
-"מה הפנטזיה שהגשמתם ואיך זה היה?",
-"מה הדבר הכי רומנטי שעשיתם לפני הסקס?",
-"איך נראה הסקסט האחרון שלכם? קראו בקול! 📖",
-"מה הטריק הכי טוב שלכם לפתיינות? 😘",
-"ספרו על הפעם הכי מביכה שכמעט נתפסתם 🚪",
-"מה עושים כשאחד רוצה והשני לא?",
-"תארו את הלילה הראשון שלכם ביחד 💫",
-"מה הדבר הכי יצירתי שעשיתם במיטה?",
-"מה הקוד הסודי שלכם כשאתם רוצים את זה? 😉",
-"איזה שיר הכי מדליק אתכם ביחד? 🎵",
-"מה הדבר הכי מפתיע שגיליתם שמדליק אתכם?",
-"ספרו על ניסיון כושל שהפך למצחיק 😂",
-"מה הפנטזיה הבאה שאתם רוצים להגשים?",
-],
-hashifa:[
-"מה הדבר שאתם מסתירים מההורים שלכם לגבי היחסים? 🙈",
-"האם אי פעם חשבתם לנסות שלישייה? 👀",
-"מה הדבר הכי שנוי במחלוקת ביניכם בנושא סקס?",
-"ספרו על משהו שראיתם בפורנו ורציתם לנסות 🎬",
-"מה הסוד הכי גדול שלכם שבן/בת הזוג לא יודע/ת?",
-"האם אי פעם שיקרתם לגבי כמה פרטנרים היו לכם? 🤥",
-"מה הדבר הכי מוזר שמדליק אתכם ואתם מתביישים בזה?",
-"האם אי פעם קינאתם בחיי המין של זוג אחר?",
-"מה הגבול שאתם לא מוכנים לחצות במיטה? 🚫",
-"ספרו על פעם שהתחרטתם על משהו שעשיתם ביחד",
-"מה הדבר הכי אינטימי שעשיתם שזה לא סקס?",
-"האם יש משהו שניסיתם פעם אחת ואמרתם 'אף פעם יותר'? 😬",
-"מה הדבר שהכי מפחיד אתכם לנסות ובכל זאת רוצים?",
-"האם אי פעם דיברתם על חוקים ל'משחקים' עם אנשים אחרים?",
-"מה הדבר שלמדתם על עצמכם מינית רק בזכות בן/בת הזוג?",
-"ספרו על הפעם שבן/בת הזוג הכי הפתיע/ה אתכם 😲",
-"מה הייתם משנים בפעם הראשונה שלכם ביחד?",
-]
-};
+const questions=[
+{q:"מה המקום הכי מטורף שהייתם רוצים לעשות בו סקס?",o:["על חוף הים 🏖️","במשרד בזמן עבודה 💼","באוטו בחניון 🚗","בטיסה ✈️"]},
+{q:"כמה פעמים בשבוע אתם רוצים את זה?",o:["כל יום 🔥","3-4 פעמים 😏","פעם-פעמיים 😌","תלוי במצב רוח 🎭"]},
+{q:"מה הפנטזיה הכי חמה שלכם?",o:["שלישייה 🔥","משחקי תפקידים 🎭","קשירות 🪢","סקס בציבורי 👀"]},
+{q:"מה בן/בת הזוג לובש/ת שהכי מדליק אותך?",o:["תחתונים וגופייה 🩲","בגד ים 👙","חליפה/שמלה אלגנטית 👔","כלום 😈"]},
+{q:"מה הדבר הכי מביך שקרה לכם במיטה?",o:["נפלנו מהמיטה 😂","מישהו נכנס עלינו 😱","צלילים מביכים 💨","נרדמנו באמצע 😴"]},
+{q:"מה התנוחה האהובה עליכם?",o:["מיסיונרית קלאסית 😇","מאחורה 🍑","למעלה - שליטה! 🤠","על הצד, עצלנים 😏"]},
+{q:"איפה הכי מדליק לקבל נשיקה?",o:["על הצוואר 💋","על השפתיים 👄","על הבטן 🔥","על האוזן 👂"]},
+{q:"מה הצעצוע שהכי סקרן אתכם?",o:["ויברטור 📳","אזיקים ⛓️","עיניות 🕶️","קוביות למשחק 🎲"]},
+{q:"מתי הזמן הכי טוב לסקס?",o:["בבוקר עם קפה ☕","באמצע הלילה 🌙","אחרי מסיבה 🥂","בצהריים בהפתעה 😈"]},
+{q:"כמה זמן לוקח לכם פורפליי?",o:["5 דקות, ישר לעניין 💨","15-20 דקות 👌","חצי שעה+ 🕐","מה זה פורפליי? 😅"]},
+{q:"מה הדבר הכי פראי שעשיתם?",o:["סקס במקום ציבורי 🏙️","צילמנו את עצמנו 📹","עם צעצועים 🎪","משחק תפקידים מלא 🎭"]},
+{q:"איזה סרט תרצו לשחזר במיטה?",o:["50 גוונים של אפור ⛓️","טיטניק (הסצנה במכונית) 🚗","בייסיק אינסטינקט 🧊","דירטי דאנסינג 💃"]},
+{q:"מה הדבר שהכי מעניין אתכם לנסות?",o:["בונדג׳ קל 🪢","סקס טנטרי 🧘","משחקי שליטה 👑","סקס בחוץ 🌲"]},
+{q:"מה גורם לכם להתרגש הכי מהר?",o:["לחישות חמות באוזן 🗣️","מגע על הגב 🤚","מבט עמוק בעיניים 👁️","ביס קל על השפתיים 😈"]},
+{q:"מה הסוד שלכם לסקס טוב?",o:["תקשורת פתוחה 🗨️","הרבה פורפליי 💋","ספונטניות 🎲","ניסוי דברים חדשים 🆕"]},
+{q:"איך הייתם מתארים את עצמכם במיטה?",o:["דומיננטי/ת 👑","סבמיסיבי/ת 🐱","תלוי ביום 🔄","שווה שווה ⚖️"]},
+{q:"מה הייתם רוצים שבן/בת הזוג יעשה יותר?",o:["יוזמה! 💪","דיבורים חמים 🗣️","עיסויים 💆","הפתעות רומנטיות 🌹"]},
+{q:"מה הכי מעלה לכם את הליבידו?",o:["אלכוהול 🍷","מוזיקה סקסית 🎵","מקלחת חמה ביחד 🚿","שיחה אינטימית 💬"]},
+{q:"איזה סוג של הלבשה תחתונה מדליק אותכם?",o:["תחרה 🖤","סאטן ✨","ספורטיבי 🏋️","מה שמורידים הכי מהר 😂"]},
+{q:"מה הייתם עושים עם 24 שעות לבד ללא ילדים?",o:["מרתון סקס 🔥","סרט רומנטי + מיטה 🎬","ספא ואז מיטה 💆","ישנים סוף סוף! 😴"]},
+{q:"מה הדבר הכי קינקי שחלמתם עליו?",o:["אורגיה 👥","BDSM רציני ⛓️","סקס בחוף נודיסטים 🏖️","קוספליי חם 🦸"]},
+{q:"מה עדיף: לתת או לקבל?",o:["לתת 🎁","לקבל 🤤","שניהם 69! 😏","תלוי מה... 🤔"]},
+{q:"מה יותר חשוב: גודל או טכניקה?",o:["גודל בהחלט 📏","טכניקה מעל הכל 🎯","שניהם ביחד 💯","זה בכלל לא מה שחשוב 💕"]},
+{q:"כמה זמן אידיאלי לסשן?",o:["15 דקות, קוויקי 💨","30-45 דקות 👌","שעה+ מרתון 🏃","עד שנגמר 🤷"]},
+{q:"מה הכי מפחיד אתכם לבקש במיטה?",o:["לנסות אנאל 🍑","לשחק תפקידים 🎭","לצלם 📸","לשתף עוד מישהו 👥"]},
+{q:"מה הסצנה שהכי מדליקה אתכם?",o:["זר/ה שפוגשים בבר 🍸","בוס/ית ועובד/ת 💼","שוטר/ת ועצור/ה 🚔","רופא/ה ומטופל/ת 🏥"]},
+{q:"איפה במיטה הכי טוב?",o:["על הגב, נוח 😌","על הבטן 🔥","בישיבה 🪑","עומדים ליד הקיר 🧱"]},
+{q:"מה הייתם לובשים למפגש רומנטי?",o:["כלום מתחת למעיל 🧥","הלבשה תחתונה חמה 🔥","ג׳ינס הדוק 👖","אני תמיד סקסי 😎"]},
+{q:"מה הדבר הכי מפתיע שגיליתם על עצמכם במיטה?",o:["שאני דומיננט/ית 👑","שאני אוהב/ת צעצועים 🎪","שדיבורים חמים מדליקים אותי 🗣️","שאני גמיש/ה מאוד 🤸"]},
+{q:"מה עושים אחרי סקס?",o:["ישר לישון 😴","מתכרבלים 🤗","אוכלים משהו 🍕","סבב שני! 🔄"]},
+{q:"מתי הפעם האחרונה ששלחתם הודעה חמה?",o:["היום 🥵","השבוע 📱","אני לא שולח/ת כאלה 😇","אני שולח/ת רק תמונות 📸"]},
+{q:"מה הייתם רוצים לעשות שעדיין לא ניסיתם?",o:["סקס על החוף 🏖️","סקס באוויר הפתוח 🌳","משחקי שעווה 🕯️","קשירות עיניים 🙈"]},
+{q:"מה הדבר שהכי מדליק אתכם בבן/בת הזוג?",o:["הביטחון העצמי 💪","הריח 👃","הידיים 🤲","החיוך 😏"]},
+{q:"מה עדיף: תאורה או חושך?",o:["חושך מוחלט 🌑","נרות 🕯️","אור מלא, רוצה לראות! 💡","לא אכפת לי 🤷"]},
+{q:"כמה מהר אתם מוכנים לסבב שני?",o:["תנו לי 5 דקות 💨","חצי שעה ☕","צריך לילה שלם 😴","אני תמיד מוכן/ה 😈"]},
+{q:"מה המקום הכי מוזר ששלחתם בו סקסט?",o:["מהעבודה 💼","מארוחה משפחתית 🍽️","מההלוויה 💀","מהחתונה של חבר 💒"]},
+{q:"מה הפנטזיה שלכם עם אדם מפורסם?",o:["שחקן/ית 🎬","זמר/ת 🎤","ספורטאי/ת 🏋️","אני מרוצה מבן/בת הזוג 😇"]},
+{q:"מה הסוד הכי חם שלא סיפרתם לאף אחד?",o:["פנטזיה שלא סיפרתי 🤫","דבר שעשיתי עם אקס 🙊","חלום רטוב מביך 💭","מקום סודי שעשינו בו 📍"]},
+{q:"מה עדיף: ספונטני או מתוכנן?",o:["ספונטני לגמרי ⚡","קצת תכנון 📋","מתוכנן עם הפתעות 🎁","ספונטני עם אביזרים 🎒"]},
+{q:"מה הז׳אנר שהכי מסקרן אתכם בפורנו?",o:["רומנטי/סופט 💕","דומיננטי ⛓️","שלישיות 👥","אני לא צופה (באמת?) 😇"]},
+{q:"מה עדיף: במיטה או מחוץ למיטה?",o:["מיטה, נוחות מעל הכל 🛏️","ספה בסלון 🛋️","על הרצפה 💪","בחוץ, אדרנלין! 🌳"]},
+{q:"מה הייתם אומרים אם בן/בת הזוג רוצה לנסות BDSM?",o:["בטח! כבר מזמן רציתי 😈","ננסה בעדינות 🤔","אולי רק אזיקים ⛓️","לא בשבילי 🙅"]},
+{q:"מה החלק הכי סקסי בגוף?",o:["ישבן 🍑","חזה 💪","שפתיים 👄","עיניים 👁️"]},
+{q:"מה הייתם עושים אם מישהו מציע לכם שלישייה?",o:["מיד! 🔥","רק אם בן/בת הזוג רוצה 🤝","בשום פנים 🙅","תלוי עם מי... 👀"]},
+{q:"כמה אורגזמות אתם צריכים כדי להיות מרוצים?",o:["אחד מספיק ☝️","2-3 לפחות ✌️","ככל שיותר יותר טוב 🔥","לא סופר/ת 🤷"]},
+{q:"מה עדיף: סקס בבוקר או סקס בלילה?",o:["בוקר, אנרגיה! ☀️","לילה, אווירה 🌙","צהריים, הפתעה! 🌞","בכל זמן 🕐"]},
+{q:"מה הייתם עושים לו היה לכם חדר סודי?",o:["חדר BDSM מאובזר ⛓️","חדר עם מראות בכל מקום 🪞","חדר ספא אינטימי 🛁","חדר עם מיטת מים ענקית 🌊"]},
+{q:"מה הדבר הכי קינקי שקניתם?",o:["ויברטור/דילדו 📳","אזיקים/חבלים ⛓️","תלבושת סקסית 👗","שמן עיסוי חם 🫠"]},
+{q:"מה הייתם רוצים שיאמרו לכם במיטה?",o:["דברים מלוכלכים 🗣️","את/ה הכי טוב/ה 👑","עוד, עוד! 🔥","שקט, רק תרגישו 🤫"]},
+{q:"מה הדבר שהכי מפריע לכם בסקס?",o:["טלפון שמצלצל 📱","רעשים מבחוץ 🔊","חוסר יוזמה 😤","שזה נגמר מהר 😅"]},
+{q:"איזה אוכל הכי סקסי לאכול מהגוף?",o:["שוקולד 🍫","קצפת 🍦","דבש 🍯","תותים 🍓"]},
+{q:"מה הייתם עושים עם שמן עיסוי?",o:["עיסוי מלא לכל הגוף 💆","רק לאזורים מסוימים 😏","מחליקים על הרצפה ביחד 🤣","שופכים על המיטה 🛏️"]},
+{q:"מה הכי מעלה לכם חשק בבן/בת הזוג?",o:["כשהם מבשלים 🍳","כשהם יוצאים מהמקלחת 🚿","כשהם מתלבשים יפה 👔","כשהם עושים ספורט 💪"]},
+{q:"מה עדיף: איטי ורומנטי או מהיר ופראי?",o:["איטי ורומנטי 🌹","מהיר ופראי 🔥","מתחיל איטי ונגמר פראי ⚡","תלוי במצב הרוח 🎭"]},
+{q:"איפה הכי מדליק לעשות סקס ספונטני?",o:["במטבח 🍳","במקלחת 🚿","על שולחן האוכל 🪑","במרפסת בלילה 🌙"]},
+{q:"מה התגובה שלכם כשרואים את בן/בת הזוג עירום/ה?",o:["מיד קופץ/ת עליו/ה 🔥","מחמאה + מבט 😍","עושה/ה כאילו לא שם/ה לב 😏","צילום סודי 📸"]},
+{q:"מה הייתם עושים אם נתפסתם באמצע?",o:["ממשיכים 😈","צוחקים ומפסיקים 😂","מתים מבושה 🫣","נועלים דלת וממשיכים 🔒"]},
+{q:"מה הפנטזיה שלכם לגבי תחפושות?",o:["אחות/רופא 🏥","שוטר/ת 🚔","צ'ירליידר 📣","חתול/ה סקסי/ת 🐱"]},
+{q:"מה חשוב לכם יותר: אורך או עובי?",o:["אורך 📏","עובי 🫣","שניהם 💯","לא מה שחשוב בכלל 🧠"]},
+{q:"מה הייתם עושים עם קרח במיטה?",o:["מעבירים על הגוף 🧊","שמים בפה ומנשקים 💋","לא נוגע בזה 🙅","משלבים עם שמן חם 🔥"]},
+{q:"מה הייתם רוצים שיקרה לכם ביום הולדת?",o:["סטריפטיז פרטי 💃","לילה במלון יוקרה 🏨","מסיבת הפתעה אינטימית 🎉","מתנה מהסקס שופ 🎁"]},
+{q:"מתי הפעם האחרונה שחלמתם חלום רטוב?",o:["הלילה 🌙","השבוע 😏","לא זוכר/ת 🤔","חולם/ת כל הזמן 🔥"]},
+{q:"מה עדיף: עם מוזיקה או בשקט?",o:["מוזיקה סקסית 🎵","שקט, שומעים הכל 🤫","טלוויזיה ברקע 📺","לא משנה 🤷"]},
+];
 
-const catInfo={
-miZug:{name:"מי מהזוג... 🤔",cls:"cat-who"},
-emet:{name:"אמת 🔥",cls:"cat-truth"},
-zugNegedZug:{name:"זוג נגד זוג ⚔️",cls:"cat-vs"},
-hashifa:{name:"חשיפה 💣",cls:"cat-reveal"},
-};
+let couples=[],scores={},currentRound=0,totalRounds=0,roundOrder=[];
+let currentCouple,personAAnswer,phase;
 
-let couples=[],scores={},currentQ=0,questions=[],votedFor=null;
+function confirmAge(){show('screen-setup');addCouple();addCouple()}
 
-function showScreen(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-}
-
-// Setup
-function initSetup(){
-const c=document.getElementById('coupleInputs');
-c.innerHTML='';
-for(let i=0;i<2;i++) addCouple();
-}
 function addCouple(){
-const c=document.getElementById('coupleInputs');
-const n=c.children.length;
-if(n>=5)return;
-const d=document.createElement('div');
-d.className='couple-input';
-d.style.animationDelay=n*0.1+'s';
-d.innerHTML=`<span>💑</span><input type="text" placeholder="שם זוג ${n+1} (למשל: דני ומיכל)" class="couple-name">`;
-c.appendChild(d);
-if(c.children.length>=5)document.getElementById('addCoupleBtn').style.display='none';
+if(document.querySelectorAll('.couple-entry').length>=5)return;
+const n=document.querySelectorAll('.couple-entry').length+1;
+const d=document.createElement('div');d.className='couple-entry fade-in';
+d.innerHTML=`<label>זוג ${n}</label><input placeholder="שם בן/בת זוג א׳" class="nameA"><input placeholder="שם בן/בת זוג ב׳" class="nameB">`;
+document.getElementById('couplesList').appendChild(d);
+d.querySelectorAll('input').forEach(i=>i.addEventListener('input',checkReady));
+if(n>=5)document.getElementById('addBtn').style.display='none';
+checkReady();
 }
-initSetup();
+
+function checkReady(){
+const entries=document.querySelectorAll('.couple-entry');
+let valid=0;
+entries.forEach(e=>{
+const a=e.querySelector('.nameA').value.trim(),b=e.querySelector('.nameB').value.trim();
+if(a&&b)valid++;
+});
+document.getElementById('startBtn').disabled=valid<2;
+}
 
 function startGame(){
 couples=[];
-document.querySelectorAll('.couple-name').forEach(inp=>{
-const v=inp.value.trim();
-if(v)couples.push(v);
+document.querySelectorAll('.couple-entry').forEach(e=>{
+const a=e.querySelector('.nameA').value.trim(),b=e.querySelector('.nameB').value.trim();
+if(a&&b)couples.push({a,b,score:0});
 });
-if(couples.length<2){alert('צריך לפחות 2 זוגות!');return;}
-scores={};
-couples.forEach(c=>scores[c]=0);
-buildQuestions();
-currentQ=0;
-showScreen('game');
-showQuestion();
+if(couples.length<2)return;
+// shuffle questions
+for(let i=questions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]]}
+// each couple gets ~3-4 questions, min 2 rounds per couple
+const perCouple=Math.min(4,Math.floor(questions.length/couples.length));
+totalRounds=perCouple*couples.length;
+roundOrder=[];
+for(let r=0;r<perCouple;r++)couples.forEach((_,i)=>roundOrder.push(i));
+currentRound=0;
+nextRound();
 }
 
-function buildQuestions(){
-questions=[];
-const cats=Object.keys(Q);
-const all=[];
-cats.forEach(cat=>{
-Q[cat].forEach(q=>all.push({cat,q}));
-});
-// shuffle
-for(let i=all.length-1;i>0;i--){const j=Math.random()*i|0;[all[i],all[j]]=[all[j],all[i]];}
-// pick ~15-20 rounds
-questions=all.slice(0,Math.min(20,all.length));
-// for vs questions, assign two couples
-questions.forEach(q=>{
-if(q.cat==='zugNegedZug'){
-const shuffled=[...couples].sort(()=>Math.random()-.5);
-q.couple1=shuffled[0];
-q.couple2=shuffled[1%shuffled.length];
-}
-});
+function nextRound(){
+if(currentRound>=totalRounds){showResults();return}
+const ci=roundOrder[currentRound];
+currentCouple=couples[ci];
+phase='A';
+const t=document.getElementById('turnTitle');
+t.textContent=`${currentCouple.a} ❤️ ${currentCouple.b}`;
+document.getElementById('turnLabel').textContent=`תור של ${currentCouple.a}!`;
+document.getElementById('turnHint').textContent='תענה/י ותעביר/י את הטלפון';
+document.getElementById('turnEmoji').textContent='💑';
+show('screen-turn');
 }
 
 function showQuestion(){
-if(currentQ>=questions.length){showResults();return;}
-const q=questions[currentQ];
-const info=catInfo[q.cat];
-votedFor=null;
-
-document.getElementById('roundInfo').textContent=`שאלה ${currentQ+1} מתוך ${questions.length}`;
-document.getElementById('progressFill').style.width=((currentQ+1)/questions.length*100)+'%';
-
-// scoreboard
-const sb=document.getElementById('scoreboard');
-sb.innerHTML='';
-couples.forEach(c=>{
-sb.innerHTML+=`<div class="score-item"><div class="name">${c}</div><div class="pts">${scores[c]} ⭐</div></div>`;
+const q=questions[currentRound%questions.length];
+document.getElementById('questionText').textContent=q.q;
+document.getElementById('roundInfo').textContent=`שאלה ${currentRound+1} מתוך ${totalRounds}`;
+document.getElementById('progressFill').style.width=((currentRound+1)/totalRounds*100)+'%';
+const c=document.getElementById('optionsContainer');c.innerHTML='';
+q.o.forEach((opt,i)=>{
+const b=document.createElement('button');b.className='option-btn fade-in';b.textContent=opt;
+b.style.animationDelay=(i*0.1)+'s';
+b.onclick=()=>pickAnswer(i,b);
+c.appendChild(b);
 });
-
-// category
-const cb=document.getElementById('categoryBadge');
-cb.innerHTML=`<span class="category-badge ${info.cls}">${info.name}</span>`;
-
-// question
-document.getElementById('questionCard').textContent=q.q;
-
-// vs area
-const vs=document.getElementById('vsArea');
-if(q.cat==='zugNegedZug'){
-vs.innerHTML=`<div class="vs-label">${q.couple1} ⚔️ ${q.couple2}</div>`;
-}else{vs.innerHTML='';}
-
-// vote area
-const va=document.getElementById('voteArea');
-va.innerHTML='';
-if(q.cat==='zugNegedZug'){
-[q.couple1,q.couple2].forEach((c,i)=>{
-const b=document.createElement('button');
-b.className='btn vote-btn';
-b.style.animationDelay=i*0.1+'s';
-b.textContent=`🗳️ ${c}`;
-b.onclick=()=>selectVote(c,b);
-va.appendChild(b);
-});
-}else{
-couples.forEach((c,i)=>{
-const b=document.createElement('button');
-b.className='btn vote-btn';
-b.style.animationDelay=i*0.1+'s';
-b.textContent=`🗳️ ${c}`;
-b.onclick=()=>selectVote(c,b);
-va.appendChild(b);
-});
+show('screen-question');
 }
 
-// actions
-document.getElementById('gameActions').innerHTML=`<button class="btn" onclick="confirmVote()">✅ אישור והמשך</button><br><button class="btn secondary" style="font-size:.9em;margin-top:5px" onclick="skipQuestion()">⏭️ דלג</button>`;
-}
-
-function selectVote(couple,btn){
-votedFor=couple;
-document.querySelectorAll('.vote-btn').forEach(b=>b.classList.remove('selected'));
+function pickAnswer(idx,btn){
+document.querySelectorAll('.option-btn').forEach(b=>b.onclick=null);
 btn.classList.add('selected');
+if(phase==='A'){
+personAAnswer=idx;
+setTimeout(()=>{
+document.getElementById('passText').innerHTML=`תעביר/י את הטלפון ל<br><span style="color:#ff8c00;font-size:1.2em">${currentCouple.b}</span>! 📱`;
+show('screen-pass');
+},600);
+}else{
+setTimeout(()=>reveal(idx),600);
+}
 }
 
-function confirmVote(){
-if(votedFor){
-scores[votedFor]=(scores[votedFor]||0)+1;
-spawnEmoji('⭐');
-}
-currentQ++;
-showQuestion();
+function startPartnerB(){
+phase='B';
+document.getElementById('turnLabel').textContent=`תור של ${currentCouple.b}!`;
+document.getElementById('turnHint').textContent=`מה לדעתך ${currentCouple.a} ענה/תה?`;
+document.getElementById('turnEmoji').textContent='🤔';
+show('screen-turn');
 }
 
-function skipQuestion(){currentQ++;showQuestion();}
+function reveal(bAnswer){
+const q=questions[currentRound%questions.length];
+const match=personAAnswer===bAnswer;
+if(match)currentCouple.score++;
+document.getElementById('revealIcon').textContent=match?'🎉':'😂';
+document.getElementById('revealTitle').textContent=match?'התאמה מושלמת! 🔥':'לא הכרתם! 😜';
+const msgs=match?
+['אתם פשוט חיה אחת! 🔥','טלפתיה מינית! 🧠','בול! אתם שורפים! 🔥','מכירים אחד את השני בעיניים עצומות 😏']:
+['אולי תדברו יותר... במיטה 😂','צריך לתרגל יותר ביחד 😈','בפעם הבאה תשימו לב! 🫣','חחחח לא קלעתם 🤣'];
+document.getElementById('revealMsg').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+document.getElementById('revealAnswers').innerHTML=`
+<div class="reveal-card fade-in"><div class="label">${currentCouple.a} ענה/תה:</div><div class="answer">${q.o[personAAnswer]}</div></div>
+<div class="reveal-card fade-in"><div class="label">${currentCouple.b} ניחש/ה:</div><div class="answer">${q.o[bAnswer]}</div></div>`;
+document.getElementById('revealScore').textContent=`${currentCouple.a} ❤️ ${currentCouple.b}: ${currentCouple.score} נקודות`;
+show('screen-reveal');
+if(match)spawnConfetti();
+currentRound++;
+}
 
 function showResults(){
-showScreen('results');
-const sorted=couples.sort((a,b)=>scores[b]-scores[a]);
-document.getElementById('winnerTitle').textContent=`🔥 ${sorted[0]} הם הזוג הכי חם! 🔥`;
-
-const podium=document.getElementById('podium');
-podium.innerHTML='';
+const sorted=[...couples].sort((a,b)=>b.score-a.score);
 const medals=['🥇','🥈','🥉'];
 const classes=['first','second','third'];
-for(let i=0;i<Math.min(3,sorted.length);i++){
-const d=document.createElement('div');
-d.className=`podium-place ${classes[i]}`;
-d.style.animationDelay=(.2+i*.2)+'s';
-d.innerHTML=`<div class="medal">${medals[i]}</div><div class="pname">${sorted[i]}</div><div class="pscore">${scores[sorted[i]]} ⭐</div>`;
-podium.appendChild(d);
+const p=document.getElementById('podium');p.innerHTML='';
+sorted.slice(0,3).forEach((c,i)=>{
+const d=document.createElement('div');d.className=`podium-item ${classes[i]} fade-in`;
+d.innerHTML=`<div class="podium-medal">${medals[i]}</div><div class="podium-name">${c.a} ❤️ ${c.b}</div><div class="podium-score">${c.score} נקודות</div>`;
+p.appendChild(d);
+});
+const all=document.getElementById('allScores');all.innerHTML='<br>';
+sorted.forEach((c,i)=>{
+all.innerHTML+=`<p style="font-size:1.1em;margin:5px">${medals[i]||'🔹'} ${c.a} & ${c.b} — ${c.score} נק׳</p>`;
+});
+show('screen-results');
+spawnConfetti();
 }
 
-const fs=document.getElementById('fullScores');
-if(sorted.length>3){
-fs.innerHTML='<h2>כל התוצאות</h2>'+sorted.slice(3).map((c,i)=>
-`<div class="score-item" style="margin:5px;display:inline-block"><div class="name">${c}</div><div class="pts">${scores[c]} ⭐</div></div>`
-).join('');
-}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 
-// celebration
-for(let i=0;i<20;i++) setTimeout(()=>spawnEmoji(['🔥','❤️','🌶️','💋','🏆','⭐','🎉'][Math.random()*7|0]),i*150);
+function spawnConfetti(){
+const emojis=['🔥','❤️','✨','💋','🎉','😈','💥','🍑'];
+for(let i=0;i<30;i++){
+const c=document.createElement('div');c.className='confetti';c.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+c.style.left=Math.random()*100+'vw';c.style.animationDuration=(2+Math.random()*2)+'s';c.style.animationDelay=(Math.random()*1)+'s';
+document.body.appendChild(c);setTimeout(()=>c.remove(),5000);
 }
-
-function spawnEmoji(e){
-const s=document.createElement('div');
-s.className='emoji-rain';
-s.textContent=e;
-s.style.left=Math.random()*100+'vw';
-s.style.animationDuration=(2+Math.random()*2)+'s';
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),4000);
 }
 </script>
 </body>
